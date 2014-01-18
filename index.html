@@ -3,14 +3,14 @@
 <head>
 <title>Game</title>
 <meta charset="utf-8" />
+<script src="game_logic.js"></script>
+<script>
+	window.onload = function() {
+		Game.startGame(20,10,30,5);
+	};
+</script>
 </head>
 <body>
-	<canvas id="place" width="1200" height="1200"></canvas>
-	<script src="game_logic.js"></script>
-	<script>
-		window.onload = function() {
-			Game.startGame();
-		};
-	</script>
+	<canvas id="place" style="border:2px black solid;"></canvas>
 </body>
 </html>
