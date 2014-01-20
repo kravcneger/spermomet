@@ -73,7 +73,6 @@ function Field(rows, columns) {
 				}
 			});
 		});
-		Spermomet.all_glasses;
 		if (Spermomet.glasses > 40) {
 			Spermomet.countBlaster += 10;
 			Spermomet.glasses -= 40;
