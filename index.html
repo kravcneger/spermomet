@@ -6,8 +6,8 @@
 <script src="game_logic.js"></script>
 <script>
 	window.onload = function() {
-		document.getElementById("startGame").onclick = function(){
-			Game.stopGame();			
+		document.getElementById("startGame").onclick = function() {
+			Game.stopGame();
 			var rows = document.getElementById("rows").value;
 			var columns = document.getElementById("columns").value;
 			var edge = document.getElementById("edge").value;
@@ -20,6 +20,9 @@
 </head>
 <body>
 	<table align="center">
+		<tr>
+			<td colspan="2">ctrl - обычный огонь, пробел - лазер</td>
+		</tr>
 		<tr>
 			<td rowspan="2">
 				<canvas id="place" align="center" style="border: 2px black solid;"></canvas>
