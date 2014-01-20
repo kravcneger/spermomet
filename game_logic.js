@@ -277,6 +277,7 @@ Game.stopGame = function() {
 	for (var i = 0; i < Game.Timers.length; i++) {
 		clearInterval(Game.Timers[i]);
 	}
+	document.onkeydown = null;
 };
 
 function gameOver() {

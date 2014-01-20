@@ -15,6 +15,10 @@
 			Game.startGame(rows, columns, edge, speed);
 			this.blur();
 		};
+		document.getElementById("stopGame").onclick = function() {
+			Game.stopGame();
+			this.blur();
+		};		
 	};
 </script>
 </head>
@@ -54,7 +58,8 @@
 					<option>11</option>
 					<option>12</option>
 			</select> - Скорость игры <br />
-				<button id="startGame" style="width: 150px;">Старт</button></td>
+				<button id="startGame" style="width: 150px;">Старт</button><br />
+				<button id="stopGame" style="width: 150px;">Стоп</button></td>
 		</tr>
 	</table>
 
