@@ -239,7 +239,7 @@ Game.startGame = function(rows, columns, edge, speed) {
 	elem_canvas.setAttribute("width", edge * columns);
 
 	var place = new Place(elem_canvas, field, edge);
-	var context = place.getContext("2d");
+	var context = place.getContext();
 	var drawing = new Drawing(place, context, field);
 
 	var all_glasses = document.getElementById("glasses");
