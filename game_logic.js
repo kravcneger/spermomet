@@ -9,7 +9,7 @@ function Field(rows, columns) {
 	this.cells = getArray();
 
 	this.nextRow = function() {
-		if (self.cells[rows - 1].some(function(e,i) {
+		if (self.cells[rows - 1].some(function(e, i) {
 			return e === true;
 		})) {
 			gameOver();
@@ -53,6 +53,7 @@ function Field(rows, columns) {
 					if (i != 0) {
 						if (self.cells[i - 1][j] === true) {
 							self.cells[i - 1][j] = false;
+							Spermomet.all_glasses++;
 							Spermomet.glasses++;
 						} else {
 							self.cells[i - 1][j] = 2;
@@ -61,6 +62,10 @@ function Field(rows, columns) {
 					self.cells[i][j] = false;
 				} else if (cell === 3) {
 					for (var d = 0; d < i; d++) {
+						if (self.cells[d][j] === true) {
+							Spermomet.all_glasses++;
+							Spermomet.glasses++;
+						}
 						self.cells[d][j] = 4;
 					}
 				} else if (cell === 4) {
@@ -68,8 +73,9 @@ function Field(rows, columns) {
 				}
 			});
 		});
+		Spermomet.all_glasses;
 		if (Spermomet.glasses > 40) {
-			Spermomet.countBlaster = 10;
+			Spermomet.countBlaster += 10;
 			Spermomet.glasses -= 40;
 		}
 	};
@@ -141,25 +147,16 @@ function Field(rows, columns) {
 	}
 };
 
-function Spermomet(x, y) {
-	this.x = x;
-	this.y = y;
-
-	this.shoot = function() {
-
-	};
-
-	this.shoot2 = function() {
-
-	};
-
-	this.motion = function() {
-
-	};
-}
-
-Spermomet.glasses = 0;
-Spermomet.countBlaster = 0;
+var Spermomet = {
+	glasses : 0,
+	all_glasses : 0,
+	countBlaster : 0,
+	clear: function(){
+		this.glasses = 0;
+		this.all_glasses = 0;
+		this.countBlaster = 0;
+	},
+};
 
 function Place(element, field, edge) {
 	this.edge = edge;
@@ -169,15 +166,6 @@ function Place(element, field, edge) {
 }
 
 function Drawing(place, context, field) {
-
-	this.updateField = function(field) {
-		this.field = field;
-	};
-
-	this.updateSpermomet = function(spermomet) {
-		this.spermomet = spermomet;
-	};
-
 	this.render = function() {
 		field.cells.forEach(function(row, i, arr1) {
 			row.forEach(function(node, j, arr2) {
@@ -241,6 +229,11 @@ function Game() {
 Game.Timers = [];
 
 Game.startGame = function(rows, columns, edge, speed) {
+	if( rows < 5 || columns < 5 ){
+		alert('число столбцов и строк не может быть меньше 5');
+		return;
+	}
+	
 	var field = new Field(rows, columns);
 	var elem_canvas = document.getElementById("place");
 	elem_canvas.setAttribute("height", edge * rows);
@@ -250,12 +243,18 @@ Game.startGame = function(rows, columns, edge, speed) {
 	var context = place.getContext("2d");
 	var drawing = new Drawing(place, context, field);
 
+	var all_glasses = document.getElementById("glasses");
+	var countBlaster = document.getElementById("countBlaster");
+	Spermomet.clear();
+	
 	Game.Timers.push(setInterval(function() {
 		field.nextRow();
 	}, speed * 100));
 	Game.Timers.push(setInterval(function() {
 		field.flight_Rockets();
 		drawing.render();
+		all_glasses.innerHTML = Spermomet.all_glasses;
+		countBlaster.innerHTML = Spermomet.countBlaster;
 	}, 20));
 
 	document.onkeydown = function(e) {
@@ -266,10 +265,10 @@ Game.startGame = function(rows, columns, edge, speed) {
 			field.offsetSpermomet(1);
 		} else if (e.keyCode == '17') {
 			field.createRocket();
-		}
-		else if(e.keyCode == '32'){
+		} else if (e.keyCode == '32') {
 			field.createBlaster();
 		}
+		return false;
 	};
 
 };
